@@ -510,7 +510,7 @@ function seek{T<:AbstractString}(avin::AVInput{T}, seconds::Float64,
     #Using 10 seconds before and after the desired timestamp, since the seek function
     #seek to the nearest keyframe, and 10 seconds is the longest GOP length seen in
     #practical usage.
-    const max_interval = 10.0
+    max_interval = 10.0
 
     # AVFormatContext
     fc = avin.apFormatContext[1]
@@ -673,6 +673,7 @@ if have_avdevice()
         catch
             try
                 CAMERA_DEVICES = get_camera_devices(ffmpeg, "qtkit", "\"\"")
+            catch
             end
         end
 
