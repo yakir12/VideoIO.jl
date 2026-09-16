@@ -26,6 +26,7 @@ start_time = time()
 
 @testset "VideoIO" verbose = true begin
     include("avptr.jl")
+    include("ci_regressions.jl")
     @memory_profile
     include("reading.jl")
     @memory_profile

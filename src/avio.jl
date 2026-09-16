@@ -734,7 +734,16 @@ function VideoReader(
     return vr
 end
 
-VideoReader(s::Union{IO,AbstractString}, args...; kwargs...) = VideoReader(AVInput(s), args...; kwargs...)
+function VideoReader(s::Union{IO,AbstractString}, args...; kwargs...)
+    avin = AVInput(s)
+    try
+        return VideoReader(avin, args...; kwargs...)
+    catch
+        # This constructor owns the input, even if reader initialization fails.
+        close(avin)
+        rethrow()
+    end
+end
 
 # a convenience function for getting the aspect ratio
 function aspect_ratio(f::VideoReader)
